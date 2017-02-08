@@ -4,10 +4,12 @@ package org.gandhim.pso;
 
 // this is a driver class to execute the PSO process
 
+import org.gandhim.pso.problem.BaseLineProblem;
+
 public class PSODriver {
 	public static void main(String args[]) {
 		try {
-			new PSOProcess().execute();
+			new PSOProcess(new BaseLineProblem()).execute();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

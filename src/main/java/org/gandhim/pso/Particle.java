@@ -1,5 +1,7 @@
 package org.gandhim.pso;
 
+import org.gandhim.pso.problem.PSOProblemSet;
+
 public class Particle {
 	private double fitnessValue;
 	private Velocity velocity;
@@ -32,8 +34,8 @@ public class Particle {
 		this.location = location;
 	}
 
-	public double getFitnessValue() {
-		fitnessValue = ProblemSet.evaluate(location);
+	public double getFitnessValue(PSOProblemSet problem) {
+		fitnessValue = problem.evaluate(location.getLoc());
 		return fitnessValue;
 	}
 }
