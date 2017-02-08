@@ -19,8 +19,8 @@ public class PSOProcess  {
 
     private PSOProblemSet problem;
     private List<Particle> swarm;
-    private double[] pBest;
-    private List<Location> pBestLocation;
+//    private double[] pBest;
+//    private List<Location> pBestLocation;
     private double gBest;
     private Location gBestLocation;
     private double[] fitnessValueList;
@@ -30,8 +30,8 @@ public class PSOProcess  {
     public PSOProcess(PSOProblemSet problem) {
         this.problem = problem;
         swarm = new ArrayList<>(problem.getSwarmSize());
-        pBest = new double[problem.getSwarmSize()];
-        pBestLocation = new ArrayList<>(problem.getSwarmSize());
+//        pBest = new double[problem.getSwarmSize()];
+//        pBestLocation = new ArrayList<>(problem.getSwarmSize());
         fitnessValueList = new double[problem.getSwarmSize()];
     }
 
@@ -39,10 +39,10 @@ public class PSOProcess  {
         initializeSwarm();
         updateFitnessList();
 
-        for(int i=0; i<problem.getSwarmSize(); i++) {
-            pBest[i] = fitnessValueList[i];
-            pBestLocation.add(swarm.get(i).getLocation());
-        }
+//        for(int i=0; i<problem.getSwarmSize(); i++) {
+//            pBest[i] = fitnessValueList[i];
+//            pBestLocation.add(swarm.get(i).getLocation());
+//        }
 
         int t = 0;
         double w;
@@ -50,12 +50,12 @@ public class PSOProcess  {
 
         while(t < problem.getMaximumIterations() && err > problem.getErrorTolerance()) {
             // step 1 - update pBest
-            for(int i=0; i<problem.getSwarmSize(); i++) {
-                if(fitnessValueList[i] < pBest[i]) {
-                    pBest[i] = fitnessValueList[i];
-                    pBestLocation.set(i, swarm.get(i).getLocation());
-                }
-            }
+//            for(int i=0; i<problem.getSwarmSize(); i++) {
+//                if(fitnessValueList[i] < pBest[i]) {
+//                    pBest[i] = fitnessValueList[i];
+//                    pBestLocation.set(i, swarm.get(i).getLocation());
+//                }
+//            }
 
             // step 2 - update gBest
             int bestParticleIndex = PSOUtility.getMinPos(fitnessValueList);
@@ -76,7 +76,7 @@ public class PSOProcess  {
                 double[] newVel = new double[problem.getProblemDimension()];
                 for (int j = 0; j < problem.getProblemDimension(); j++) {
                     newVel[j] = (w * p.getVelocity().getPos()[j]) +
-                            (r1 * problem.getC1()) * (pBestLocation.get(i).getLoc()[j] - p.getLocation().getLoc()[j]) +
+                            (r1 * problem.getC1()) * (p.getBestLocation().getLoc()[j] - p.getLocation().getLoc()[j]) +
                             (r2 * problem.getC2()) * (gBestLocation.getLoc()[j] - p.getLocation().getLoc()[j]);
                 }
 
