@@ -8,12 +8,16 @@ package org.gandhim.pso;
 
 //import org.gandhim.pso.delete.PSOConstants;
 import org.gandhim.pso.problem.PSOProblemSet;
+import org.gandhim.pso.util.RandomGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.Comparator.comparingDouble;
 
 public class PSOProcess  {
 
@@ -23,48 +27,28 @@ public class PSOProcess  {
 //    private List<Location> pBestLocation;
     private double gBest;
     private Location gBestLocation;
-    private double[] fitnessValueList;
+//    private double[] fitnessValueList;
 
-    Random generator = new Random(4);
+    private Random generator;
 
     public PSOProcess(PSOProblemSet problem) {
         this.problem = problem;
         swarm = new ArrayList<>(problem.getSwarmSize());
-//        pBest = new double[problem.getSwarmSize()];
-//        pBestLocation = new ArrayList<>(problem.getSwarmSize());
-        fitnessValueList = new double[problem.getSwarmSize()];
+        gBest = Double.MAX_VALUE;
+        generator = RandomGenerator.getInstance().getRandom();
     }
 
     public void execute() {
         initializeSwarm();
         updateFitnessList();
 
-//        for(int i=0; i<problem.getSwarmSize(); i++) {
-//            pBest[i] = fitnessValueList[i];
-//            pBestLocation.add(swarm.get(i).getLocation());
-//        }
-
         int t = 0;
         double w;
         double err = 9999;
 
         while(t < problem.getMaximumIterations() && err > problem.getErrorTolerance()) {
-            // step 1 - update pBest
-//            for(int i=0; i<problem.getSwarmSize(); i++) {
-//                if(fitnessValueList[i] < pBest[i]) {
-//                    pBest[i] = fitnessValueList[i];
-//                    pBestLocation.set(i, swarm.get(i).getLocation());
-//                }
-//            }
 
-            // step 2 - update gBest
-            int bestParticleIndex = PSOUtility.getMinPos(fitnessValueList);
-            if(t == 0 || fitnessValueList[bestParticleIndex] < gBest) {
-                gBest = fitnessValueList[bestParticleIndex];
-                gBestLocation = swarm.get(bestParticleIndex).getLocation();
-            }
-
-            w = problem.getW(t);//W_UPPERBOUND - (((double) t) / MAX_ITERATION) * (W_UPPERBOUND - W_LOWERBOUND);
+            w = problem.getW(t);
 
             for(int i=0; i<problem.getSwarmSize(); i++) {
                 double r1 = generator.nextDouble();
@@ -112,33 +96,27 @@ public class PSOProcess  {
     }
 
     public void initializeSwarm() {
-        Particle p;
-        for(int i=0; i<problem.getSwarmSize(); i++) {
-            p = new Particle();
-
-            // randomize location inside a space defined in Problem Set
-            // randomize velocity in the range defined in Problem Set
-            double[] loc = new double[problem.getProblemDimension()];
-            double[] vel = new double[problem.getProblemDimension()];
-
-            IntStream.range(0, problem.getProblemDimension())
-                    .forEach(j -> {
-                        loc[j] = problem.getLocationMinimum()[j] + generator.nextDouble() * (problem.getLocationMaximum()[j] - problem.getLocationMinimum()[j]);
-                        vel[j] = problem.getMinimumVelocity() + generator.nextDouble() * (problem.getMaximumVelocity() - problem.getMinimumVelocity());
-                    });
-
-            Location location = new Location(loc);
-            Velocity velocity = new Velocity(vel);
-
-            p.setLocation(location);
-            p.setVelocity(velocity);
-            swarm.add(p);
-        }
+        swarm = IntStream.range(0, problem.getSwarmSize())
+                .mapToObj(i ->{
+                    Particle p = new Particle();
+                    p.setLocation(PSOUtility.randomLocation(problem));
+                    p.setVelocity(PSOUtility.randomVelocity(problem));
+                    return p;
+                }).collect(Collectors.toList());
     }
 
     public void updateFitnessList() {
-        for(int i=0; i<problem.getSwarmSize(); i++) {
-            fitnessValueList[i] = swarm.get(i).getFitnessValue(problem);
+        List<Double> fitness = swarm.stream()
+                .map(p -> p.getFitnessValue(problem))
+                .collect(Collectors.toList());
+
+        int best = IntStream.range(0, swarm.size()).boxed()
+                .min(comparingDouble(fitness::get))
+                .get();
+
+        if (gBest > fitness.get(best)) {
+            gBest = fitness.get(best);
+            gBestLocation = new Location(swarm.get(best).getLocation());
         }
     }
 }
