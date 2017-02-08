@@ -1,4 +1,4 @@
-package org.gandhim.pso;
+package org.gandhim.pso.delete;
 
 /* author: gandhi - gandhi.mtm [at] gmail [dot] com - Depok, Indonesia */
 

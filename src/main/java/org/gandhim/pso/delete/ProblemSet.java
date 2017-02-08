@@ -1,4 +1,4 @@
-package org.gandhim.pso;
+package org.gandhim.pso.delete;
 
 /* author: gandhi - gandhi.mtm [at] gmail [dot] com - Depok, Indonesia */
 
@@ -11,6 +11,8 @@ package org.gandhim.pso;
 // if your problem space is greater than 2-dimensional space
 // you need to introduce a new variable (other than x and y)
 
+import org.gandhim.pso.Location;
+
 public class ProblemSet {
 	public static final double LOC_X_LOW = 1;
 	public static final double LOC_X_HIGH = 4;
@@ -22,7 +24,7 @@ public class ProblemSet {
 	public static final double ERR_TOLERANCE = 1E-20; // the smaller the tolerance, the more accurate the result, 
 	                                                  // but the number of iteration is increased
 	
-	public static double evaluate(Location location) {
+	public static double evaluate1(Location location) {
 		double result = 0;
 		double x = location.getLoc()[0]; // the "x" part of the location
 		double y = location.getLoc()[1]; // the "y" part of the location

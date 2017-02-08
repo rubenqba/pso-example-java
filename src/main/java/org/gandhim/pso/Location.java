@@ -4,6 +4,8 @@ package org.gandhim.pso;
 
 // bean class to represent location
 
+import java.util.Arrays;
+
 public class Location {
 	// store the Location in an array to accommodate multi-dimensional problem space
 	private double[] loc;
@@ -12,6 +14,11 @@ public class Location {
 		super();
 		this.loc = loc;
 	}
+
+	public Location(Location loc) {
+		super();
+		this.loc = Arrays.copyOf(loc.getLoc(), loc.getLoc().length);
+    }
 
 	public double[] getLoc() {
 		return loc;

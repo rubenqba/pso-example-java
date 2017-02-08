@@ -8,10 +8,6 @@ import org.gandhim.pso.problem.BaseLineProblem;
 
 public class PSODriver {
 	public static void main(String args[]) {
-		try {
 			new PSOProcess(new BaseLineProblem()).execute();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 }

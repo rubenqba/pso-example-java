@@ -4,6 +4,7 @@ package org.gandhim.pso.problem;
  * Created by mlpr2 on 8/02/17.
  */
 public class BaseLineProblem implements PSOProblemSet {
+
     @Override
     public int getProblemDimension() {
         return 2;
@@ -16,7 +17,10 @@ public class BaseLineProblem implements PSOProblemSet {
 
     @Override
     public double getW(int iteration) {
-        return 1.0;
+        double w_UPPERBOUND = 1.0;
+        double w_LOWERBOUND = 0.0;
+
+        return w_UPPERBOUND - (((double) iteration) / getMaximumIterations()) * (w_UPPERBOUND - w_LOWERBOUND);
     }
 
     @Override
