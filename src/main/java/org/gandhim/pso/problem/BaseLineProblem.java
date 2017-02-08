@@ -1,56 +1,13 @@
 package org.gandhim.pso.problem;
 
 /**
- * Created by mlpr2 on 8/02/17.
+ * Created by ruben.bressler on 8/02/17.
  */
 public class BaseLineProblem implements PSOProblemSet {
 
     @Override
     public int getProblemDimension() {
         return 2;
-    }
-
-    @Override
-    public int getSwarmSize() {
-        return 30;
-    }
-
-    @Override
-    public double getW(int iteration) {
-        double w_UPPERBOUND = 1.0;
-        double w_LOWERBOUND = 0.0;
-
-        return w_UPPERBOUND - (((double) iteration) / getMaximumIterations()) * (w_UPPERBOUND - w_LOWERBOUND);
-    }
-
-    @Override
-    public double getC1() {
-        return 2;
-    }
-
-    @Override
-    public double getC2() {
-        return 2;
-    }
-
-    @Override
-    public double getMinimumVelocity() {
-        return -1;
-    }
-
-    @Override
-    public double getMaximumVelocity() {
-        return 1;
-    }
-
-    @Override
-    public double getErrorTolerance() {
-        return 1E-20;
-    }
-
-    @Override
-    public int getMaximumIterations() {
-        return 100;
     }
 
     @Override

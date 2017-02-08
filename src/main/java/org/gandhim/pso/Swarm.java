@@ -8,32 +8,32 @@ package org.gandhim.pso;
 
 //import org.gandhim.pso.delete.PSOConstants;
 
+import org.gandhim.pso.data.Location;
+import org.gandhim.pso.data.Particle;
+import org.gandhim.pso.data.Velocity;
 import org.gandhim.pso.problem.PSOProblemSet;
+import org.gandhim.pso.util.PSOUtility;
 import org.gandhim.pso.util.RandomGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.Comparator.comparingDouble;
 
-public class PSOProcess {
+public class Swarm {
 
     private PSOProblemSet problem;
     private List<Particle> swarm;
-    //    private double[] pBest;
-//    private List<Location> pBestLocation;
     private double gBest;
     private Location gBestLocation;
-//    private double[] fitnessValueList;
 
     private Random generator;
     private int iteration;
 
-    public PSOProcess(PSOProblemSet problem) {
+    public Swarm(PSOProblemSet problem) {
         this.problem = problem;
         swarm = new ArrayList<>(problem.getSwarmSize());
         gBest = Double.MAX_VALUE;
@@ -42,10 +42,11 @@ public class PSOProcess {
 
     public void execute() {
         initializeSwarm();
-        updateFitnessList();
+//        updateFitnessList();
 
         iteration = 0;
         while (iteration < problem.getMaximumIterations() && getError() > problem.getErrorTolerance()) {
+            updateFitnessList();
             iterate();
         }
 
@@ -81,8 +82,7 @@ public class PSOProcess {
         });
 
         System.out.println("ITERATION " + iteration + ": ");
-        System.out.println("     Best X: " + gBestLocation.getLoc()[0]);
-        System.out.println("     Best Y: " + gBestLocation.getLoc()[1]);
+        System.out.println("     Best : " + gBestLocation);
         System.out.println("     Value: " + problem.evaluate(gBestLocation.getLoc()));
         System.out.println("     Error: " + getError());
 

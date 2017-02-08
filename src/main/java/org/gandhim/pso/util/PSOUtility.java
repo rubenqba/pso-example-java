@@ -1,11 +1,12 @@
-package org.gandhim.pso;
+package org.gandhim.pso.util;
 
 /* author: gandhi - gandhi.mtm [at] gmail [dot] com - Depok, Indonesia */
 
 // just a simple utility class to find a minimum position on a list
 
+import org.gandhim.pso.data.Location;
+import org.gandhim.pso.data.Velocity;
 import org.gandhim.pso.problem.PSOProblemSet;
-import org.gandhim.pso.util.RandomGenerator;
 
 import java.util.stream.IntStream;
 

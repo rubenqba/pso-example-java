@@ -4,10 +4,10 @@ package org.gandhim.pso;
 
 // this is a driver class to execute the PSO process
 
-import org.gandhim.pso.problem.BaseLineProblem;
+import org.gandhim.pso.problem.SphereProblem;
 
 public class PSODriver {
 	public static void main(String args[]) {
-			new PSOProcess(new BaseLineProblem()).execute();
+			new Swarm(new SphereProblem()).execute();
 	}
 }

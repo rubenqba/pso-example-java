@@ -1,4 +1,4 @@
-package org.gandhim.pso;
+package org.gandhim.pso.data;
 
 import lombok.Getter;
 import lombok.Setter;
