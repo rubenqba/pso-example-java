@@ -4,8 +4,13 @@ package org.gandhim.pso;
 
 // bean class to represent location
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Arrays;
 
+@Getter
+@ToString
 public class Location {
 	// store the Location in an array to accommodate multi-dimensional problem space
 	private double[] loc;
@@ -20,12 +25,5 @@ public class Location {
 		this.loc = Arrays.copyOf(loc.getLoc(), loc.getLoc().length);
     }
 
-	public double[] getLoc() {
-		return loc;
-	}
 
-	public void setLoc(double[] loc) {
-		this.loc = loc;
-	}
-	
 }
